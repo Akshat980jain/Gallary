@@ -15,12 +15,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Create uploads and videos directory if it doesn't exist
-const uploadsDir = path.join(__dirname, '../uploads');
-const videosDir = path.join(__dirname, '../videos');
-const documentsDir = path.join(__dirname, '../documents');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir);
-if (!fs.existsSync(documentsDir)) fs.mkdirSync(documentsDir);
+const uploadsDir = path.join(__dirname, 'uploads');
+const videosDir = path.join(__dirname, 'videos');
+const documentsDir = path.join(__dirname, 'documents');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir,{recursive:true});
+if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir,{recursive:true});
+if (!fs.existsSync(documentsDir)) fs.mkdirSync(documentsDir,{recursive:true});
 
 // Middleware
 app.use(cors());
@@ -39,10 +39,10 @@ app.use('/api/videos', videoRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 
-// Serve static assets (uploaded images and videos)
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use('/videos', express.static(path.join(__dirname, '../videos')));
-app.use('/documents', express.static(path.join(__dirname, '../documents')));
+// Serve static assets (uploaded images, videos, and documents) from backend directories
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/videos', express.static(path.join(__dirname, 'videos')));
+app.use('/documents', express.static(path.join(__dirname, 'documents')));
 
 // MongoDB Connection
 const connectDB = async () => {

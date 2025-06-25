@@ -10,7 +10,7 @@ const User = require('../models/User');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Correctly navigate to the 'uploads' directory from 'backend/routes'
-    cb(null, path.join(__dirname, '../../uploads'));
+    cb(null, path.join(__dirname, '../uploads'));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -161,7 +161,7 @@ router.put('/profile/picture', protect, upload.single('profilePicture'), async (
 
     const user = await User.findById(req.user._id);
     if (user) {
-      user.profilePicture = `/uploads/${req.file.filename}`;
+      user.profilePicture = req.file.filename;
       await user.save();
       res.json({
         message: 'Profile picture updated successfully.',
